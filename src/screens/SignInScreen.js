@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 
-const LoginScreen = ({ navigation }) => {
+const SignInScreen = ({ navigation }) => {
   const [userName, setUserName] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
@@ -12,25 +12,18 @@ const LoginScreen = ({ navigation }) => {
       Alert.alert('Error', 'Please enter email and password');
       return;
     }
+    if(userPassword.length<6){
+        Alert.alert("Enter atlest 6 Digit for password")
+
+    };
     try {
-      const userCredential = await auth().signInWithEmailAndPassword(
+      const userCredential = await auth().createUserWithEmailAndPassword(
         userName,
         userPassword,
       );
       navigation.replace('Home');
     } catch (error) {
-      if (error.code === 'auth/user-not-found') {
-        Alert.alert(
-          'User Not Found',
-          'No account exists. Please sign up first!',
-        );
-      } else if (error.code === 'auth/wrong-password') {
-        Alert.alert('Wrong Password', 'Please enter correct password');
-      } else if (error.code === 'auth/invalid-email') {
-        Alert.alert('Invalid Email', 'Please enter a valid email');
-      } else {
-        Alert.alert('Login Error', error.message);
-      }
+      Alert.alert('Login Error ', error.message);
     }
   };
 
@@ -53,17 +46,10 @@ const LoginScreen = ({ navigation }) => {
           secureTextEntry
           onChangeText={value => setUserPassword(value)}
         />
-        <View className=" flex-row justify-between mt-4 ">
+        <View className="items-center mt-4 ">
           <TouchableOpacity
             className=" rounded-xl border-white h-12 w-24 justify-center bg-white "
             onPress={handleLogin}
-          >
-            <Text className="text-center font-bold text-orange-300">LOGIN</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            className=" rounded-xl border-white h-12 w-24 justify-center bg-white"
-            onPress={() => navigation.navigate('SignUp')}
           >
             <Text className="text-center font-bold text-orange-300">
               SIGN UP
@@ -75,4 +61,4 @@ const LoginScreen = ({ navigation }) => {
   );
 };
 
-export default LoginScreen;
+export default SignInScreen;
