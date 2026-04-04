@@ -1,8 +1,9 @@
 import { useState } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, TextInput, Alert,} from 'react-native';
+import {SafeAreaView} from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 
-const Login = ({ navigation }) => {
+const LoginScreen = ({ navigation }) => {
   const [userName, setUserName] = useState('');
   const [userPassword, setUserPassword] = useState('');
 
@@ -12,13 +13,10 @@ const Login = ({ navigation }) => {
       return;
     }
     try{
-      const userCredential = await auth.signInWithEmailAndPassword(
+     const userCredential = await auth().signInWithEmailAndPassword(
         userName,
         userPassword
-      ) ;
-      
-      console.log("user uid", userCredential.user.uid);
-
+      );
       navigation.replace('Home')
     }
     catch (error){
@@ -27,35 +25,35 @@ const Login = ({ navigation }) => {
   };
 
   return (
-    <View className="flex-1 justify-items-start align-middle">
-      <View className="m-2 p-5 ">
-        <Text className=" text-center text-3xl text-orange-500 mb-4">
-          Login
+    <SafeAreaView className="flex-1 justify-center align-middle  bg-orange-400">
+      <View className=" border border-orange-300 bg-white rounded-xl m-2 p-5 h-100 w-auto">
+        <Text className=" text-center text-3xl font-bold text-orange-400 mb-20 mt-10">
+          SignIn
         </Text>
 
         <TextInput
-          className="text-center border rounded-xl border-orange-200 text-1xl mb-5"
-          placeholder="Enter User Name"
-          onChangeText={setUserName}
+          className="text-center border rounded-xl border-orange-400 text-1xl mb-6"
+          placeholder="Enter Emailid Name"
+          onChangeText={(value)=>setUserName(value)}
         />
 
         <TextInput
-          className=" text-center border rounded-xl border-orange-200 text-1xl mb-5"
+          className=" text-center border rounded-xl border-orange-400 text-1xl mb-5"
           placeholder="enter your Password"
           secureTextEntry
-          onChangeText={setUserPassword}
+          onChangeText={(value)=>setUserPassword(value)}
         />
         <View className="items-center">
           <TouchableOpacity
-            className="border rounded-xl border-orange-300 h-9 w-20 justify-center bg-amber-500"
+            className="border rounded-xl border-orange-300 h-9 w-20 justify-center bg-amber-400"
             onPress={handleLogin}
           >
-            <Text className="text-center">Login</Text>
+            <Text className="text-center font-bold text-white">LOGIN</Text>
           </TouchableOpacity>
         </View>
       </View>
-    </View>
+    </SafeAreaView>
   );
 };
 
-export default Login;
+export default LoginScreen;
