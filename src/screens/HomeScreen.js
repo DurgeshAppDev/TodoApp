@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,9 @@ import database from '@react-native-firebase/database';
 
 const HomeScreen = ({ navigation }) => {
   const [newTask, setNewTask] = useState('');
-  const [taskComplete, setTaskComplete] = useState(false);
-  const [deleteTask, setDeleteTask] = useState(false);
+  const [tasks, setTasks] = useState([]);
 
+  // add new task
   const AddTask = async () => {
     if (!newTask) {
       Alert.alert('Error', 'Please Enter a Task');
@@ -26,19 +26,66 @@ const HomeScreen = ({ navigation }) => {
 
     if (!user) {
       Alert.alert('Error', 'User Not Logged In');
+      return;
     }
 
     try {
-      await database().ref(`/tasks/${userId}`).push({
+      await database().ref(`/tasks/${user.uid}`).push({
         title: newTask,
         completed: false,
         createdAt: new Date().toISOString(),
       });
       setNewTask('');
       Alert.alert('Success', 'Task Added Successfully');
-    } catch (erro) {
+    } catch (error) {
       Alert.alert('Error', error.message);
     }
+  };
+
+  useEffect(() => {
+    const user = auth().currentUser;
+    if (!user) return;
+
+    const userId = user.uid;
+    const taskRef = database().ref(`/tasks/${user.uid}`);
+    const onValueChange = taskRef.on('value', snapshot => {
+      const data = snapshot.val();
+      if (data) {
+        const taskList = Object.keys(data).map(key => ({
+          id: key,
+          ...data[key],
+        }));
+
+        setTasks(taskList);
+      } else {
+        setTasks([]);
+      }
+    });
+    return () => taskRef.off('value', onValueChange);
+  }, []);
+
+  const handleTask = async taskId => {
+    const userId = auth().currentUser.uid;
+    try {
+      await database().ref(`/tasks/${userId}/${taskId}`).remove();
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+  };
+
+  const toggleComplete = async (taskId, currentStatus) => {
+    const userId = auth().currentUser.uid;
+
+    try {
+      await database().ref(`/tasks/${userId}/${taskId}`).update({
+        completed: !currentStatus,
+      });
+    } catch (error) {
+      Alert.alert('Error', error.message);
+    }
+  };
+  const handleLogout = async () => {
+    await auth().signOut();
   };
 
   return (
@@ -52,16 +99,60 @@ const HomeScreen = ({ navigation }) => {
       <TextInput
         className="border border-orange-400 rounded-xl px-4 py-3 text-lg mb-5 bg-white shadow-lg"
         placeholder="enter your task"
-        onChangeText={task => setNewTask(task)}
+        value={newTask}
+        onChangeText={setNewTask}
       />
 
       <View className="items-center">
         <TouchableOpacity
           className=" rounded-lg border-orange-300 h-12 w-24 justify-center bg-amber-500"
-          onPress={() => {}}
+          onPress={AddTask}
         >
           <Text className="text-center text-xl text-white font-bold">ADD</Text>
         </TouchableOpacity>
+        <TouchableOpacity onPress={handleLogout}           className=" rounded-lg border-orange-300 h-12 w-24 justify-center bg-amber-500"
+>
+          <Text className="text-center text-xl text-white font-bold">Logout</Text>
+        </TouchableOpacity>
+
+        <View>
+          <FlatList
+            data={tasks}
+            keyExtractor={item => item.id}
+            renderItem={({ item }) => (
+              <View className="flex-row items-center justify-between m-2">
+                {/* Task Box */}
+                <View className="border rounded-xl h-12 w-56 justify-center">
+                  <Text
+                    className={`text-center ${
+                      item.completed ? 'line-through' : ''
+                    }`}
+                  >
+                    {item.title}
+                  </Text>
+                </View>
+
+                {/* Toggle Button */}
+                <TouchableOpacity
+                  onPress={() => toggleComplete(item.id, item.completed)}
+                  className="border rounded-xl h-12 w-16 justify-center bg-orange-400"
+                >
+                  <Text className="text-center text-white">
+                    {item.completed ? '✅' : '⬜'}
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Delete Button */}
+                <TouchableOpacity
+                  onPress={() => handleTask(item.id)}
+                  className="border rounded-xl h-12 w-16 justify-center bg-red-400"
+                >
+                  <Text className="text-center text-white">Del</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+          />
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -70,18 +161,6 @@ const HomeScreen = ({ navigation }) => {
 export default HomeScreen;
 
 {
-  /* <ScrollView>
-      <View className="flex-row ">
-        <View className=" border rounded-xl h-12 w-64 m-2 ">
-          <Text classNaem=" text-center px-1 py-1 ">hello world</Text>
-        </View>
-        <TouchableOpacity className=" border rounded-xl border-orange-400 h-12 w-20 m-1 justify-center bg-orange-400 ">
-          <Text className="text-center font-bold text-white">DONE</Text>
-        </TouchableOpacity>
-        <TouchableOpacity className=" border rounded-xl border-orange-400 h-12 w-20 m-1 justify-center bg-orange-400 ">
-          <Text className="text-center font-bold text-white">Del</Text>
-        </TouchableOpacity>
-      </View>
-      </ScrollView>
+  /* 
       <FlatList></FlatList>*/
 }
