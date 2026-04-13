@@ -1,12 +1,16 @@
 import { useEffect, useState } from 'react';
+import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+
 
 import SignInScreen from '../screens/SignInScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import Profile from '../screens/Profile';
+import MenuScreen from '../screens/MenuScreen';
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
@@ -33,7 +37,8 @@ const AppNavigator = () => {
             <Stack.Screen
               name="Login"
               component={LoginScreen}
-              options={{ headerShown: false }}
+              options={{ headerShown:false }}
+
             />
             <Stack.Screen
               name="SignUp"
@@ -43,16 +48,39 @@ const AppNavigator = () => {
           </>
         ) : (
           <>
-            <Stack.Screen
+            <Stack.Screen  
               name="Home"
               component={HomeScreen}
-              options={{ title: 'Home' }}
+              options={({navigation}) => ({
+                headerTitle: '',
+                headerLeft:()=>(
+                <MaterialIcons name="home" size={24} color="grey"/>  ),
+                headerRight:()=>(
+                  <TouchableOpacity  onPress={()=> navigation.replace('Menu')}>
+                  <MaterialIcons name="menu" size={24} color="grey" />
+                  </TouchableOpacity>
+                )
+               })}
             />
 
             <Stack.Screen
               name="Profile"
               component={Profile}
               options={{ title: 'User Profile' }}
+            />
+
+            <Stack.Screen 
+            name="Menu"
+            component={MenuScreen}
+            options={({navigation}) => ({
+              headerTitle:"Menu",
+              headerTitleAlign: 'center',
+              headerLeft:()=>(
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                  <MaterialIcons name="arrow-back" size={24} color="grey" />
+                </TouchableOpacity>
+              )
+            })}
             />
           </>
         )}

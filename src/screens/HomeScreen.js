@@ -11,6 +11,7 @@ import {
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const HomeScreen = ({ navigation }) => {
   const [newTask, setNewTask] = useState('');
@@ -110,9 +111,13 @@ const HomeScreen = ({ navigation }) => {
         >
           <Text className="text-center text-xl text-white font-bold">ADD</Text>
         </TouchableOpacity>
-        <TouchableOpacity onPress={handleLogout}           className=" rounded-lg border-orange-300 h-12 w-24 justify-center bg-amber-500"
->
-          <Text className="text-center text-xl text-white font-bold">Logout</Text>
+        <TouchableOpacity
+          onPress={handleLogout}
+          className=" rounded-lg border-orange-300 h-12 w-24 justify-center bg-amber-500 mb-15"
+        >
+          <Text className="text-center text-xl text-white font-bold ">
+            Logout
+          </Text>
         </TouchableOpacity>
 
         <View>
@@ -120,34 +125,48 @@ const HomeScreen = ({ navigation }) => {
             data={tasks}
             keyExtractor={item => item.id}
             renderItem={({ item }) => (
-              <View className="flex-row items-center justify-between m-2">
-                {/* Task Box */}
-                <View className="border rounded-xl h-12 w-56 justify-center">
+              <View className="flex-row items-center justify-between m-2 ">
+                <View className="rounded-xl h-12 w-80 justify-center m-1 bg-amber-500">
                   <Text
-                    className={`text-center ${
-                      item.completed ? 'line-through' : ''
+                    className={`text-center text-white font-bold text-xl se ${
+                      item.completed ? 'text-gray-400 line-through ' : ''
                     }`}
                   >
                     {item.title}
                   </Text>
                 </View>
 
-                {/* Toggle Button */}
                 <TouchableOpacity
                   onPress={() => toggleComplete(item.id, item.completed)}
-                  className="border rounded-xl h-12 w-16 justify-center bg-orange-400"
+                  className="h-12 w-16 justify-center ml-3"
                 >
-                  <Text className="text-center text-white">
-                    {item.completed ? '✅' : '⬜'}
-                  </Text>
+                  {item.completed ? (
+                    <MaterialIcons
+                      className="justify-center "
+                      name="check-box"
+                      size={35}
+                      color="#fdba74"
+                    />
+                  ) : (
+                    <MaterialIcons
+                      className="justify-center"
+                      name="check-box-outline-blank"
+                      size={35}
+                      color="#fdba74"
+                    />
+                  )}
                 </TouchableOpacity>
 
-                {/* Delete Button */}
                 <TouchableOpacity
                   onPress={() => handleTask(item.id)}
-                  className="border rounded-xl h-12 w-16 justify-center bg-red-400"
+                  className=" h-12 w-16 justify-center"
                 >
-                  <Text className="text-center text-white">Del</Text>
+                  <MaterialIcons
+                    className="justify-center"
+                    name="delete"
+                    size={35}
+                    color="#ef4444"
+                  />
                 </TouchableOpacity>
               </View>
             )}
@@ -159,8 +178,3 @@ const HomeScreen = ({ navigation }) => {
 };
 
 export default HomeScreen;
-
-{
-  /* 
-      <FlatList></FlatList>*/
-}

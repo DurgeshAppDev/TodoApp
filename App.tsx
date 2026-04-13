@@ -1,6 +1,6 @@
 import "./global.css";
 import AppNavigator from './src/navigation/AppNavigator';
-import auth from '@react-native-firebase/auth';
+
 
 const App =()=>{
   return <AppNavigator />
