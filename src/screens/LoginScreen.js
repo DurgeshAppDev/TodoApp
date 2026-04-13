@@ -38,7 +38,7 @@ const LoginScreen = ({ navigation }) => {
     <SafeAreaView className="flex-1 justify-center  item-center bg-white">
       <View className=" bg-orange-400 rounded-xl m-2 p-5 w-11/13 shadow-lg">
         <Text className=" text-center text-3xl font-bold text-white mb-10 mt-10">
-          SignIn
+          LOGIN
         </Text>
 
         <TextInput

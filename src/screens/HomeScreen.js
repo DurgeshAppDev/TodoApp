@@ -85,15 +85,13 @@ const HomeScreen = ({ navigation }) => {
       Alert.alert('Error', error.message);
     }
   };
-  const handleLogout = async () => {
-    await auth().signOut();
-  };
+ 
 
   return (
     <SafeAreaView className="flex-1 bg-white p-1 m-0.5 ">
-      <View className="items-center">
-        <Text className="text-left text-blue-400 text-4xl font-bold mb-6">
-          Tasks
+      <View className="items-center mt-2">
+        <Text className="text-left text-orange-400 text-4xl font-bold mb-6">
+          Add Task
         </Text>
       </View>
 
@@ -106,18 +104,10 @@ const HomeScreen = ({ navigation }) => {
 
       <View className="items-center">
         <TouchableOpacity
-          className=" rounded-lg border-orange-300 h-12 w-24 justify-center bg-amber-500"
+          className=" rounded-lg border-orange-400  bg-amber-500 h-12 w-24 justify-center"
           onPress={AddTask}
         >
           <Text className="text-center text-xl text-white font-bold">ADD</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          onPress={handleLogout}
-          className=" rounded-lg border-orange-300 h-12 w-24 justify-center bg-amber-500 mb-15"
-        >
-          <Text className="text-center text-xl text-white font-bold ">
-            Logout
-          </Text>
         </TouchableOpacity>
 
         <View>

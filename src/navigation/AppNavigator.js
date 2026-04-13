@@ -5,12 +5,14 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import auth from '@react-native-firebase/auth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-
 import SignInScreen from '../screens/SignInScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
 import Profile from '../screens/Profile';
 import MenuScreen from '../screens/MenuScreen';
+import CompletedTaskScreen from '../screens/CompletedTaskScreen';
+import NotCompletedTaskScreen from '../screens/NotCompletedTaskScreen';
+import AboutScreen from '../screens/AboutScreen';
 const Stack = createNativeStackNavigator();
 
 const AppNavigator = () => {
@@ -19,7 +21,7 @@ const AppNavigator = () => {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(user => {
-      console.log("Auth User:", user);
+      console.log('Auth User:', user);
       setUser(user);
       setLoading(false);
     });
@@ -37,8 +39,7 @@ const AppNavigator = () => {
             <Stack.Screen
               name="Login"
               component={LoginScreen}
-              options={{ headerShown:false }}
-
+              options={{ headerShown: false }}
             />
             <Stack.Screen
               name="SignUp"
@@ -48,39 +49,75 @@ const AppNavigator = () => {
           </>
         ) : (
           <>
-            <Stack.Screen  
+            <Stack.Screen
               name="Home"
               component={HomeScreen}
-              options={({navigation}) => ({
+              options={({ navigation }) => ({
                 headerTitle: '',
-                headerLeft:()=>(
-                <MaterialIcons name="home" size={24} color="grey"/>  ),
-                headerRight:()=>(
-                  <TouchableOpacity  onPress={()=> navigation.replace('Menu')}>
-                  <MaterialIcons name="menu" size={24} color="grey" />
+                headerLeft: () => (
+                  <MaterialIcons name="home" size={24} color="grey" />
+                ),
+                headerRight: () => (
+                  <TouchableOpacity onPress={() => navigation.replace('Menu')}>
+                    <MaterialIcons name="menu" size={24} color="grey" />
                   </TouchableOpacity>
-                )
-               })}
+                ),
+              })}
             />
-
             <Stack.Screen
               name="Profile"
               component={Profile}
               options={{ title: 'User Profile' }}
             />
-
-            <Stack.Screen 
-            name="Menu"
-            component={MenuScreen}
-            options={({navigation}) => ({
-              headerTitle:"Menu",
-              headerTitleAlign: 'center',
-              headerLeft:()=>(
-                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                  <MaterialIcons name="arrow-back" size={24} color="grey" />
-                </TouchableOpacity>
-              )
-            })}
+            <Stack.Screen
+              name="Menu"
+              component={MenuScreen}
+              options={({ navigation }) => ({
+                headerTitle: 'Menu',
+                headerTitleAlign: 'center',
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    <MaterialIcons name="arrow-back" size={24} color="grey" />
+                  </TouchableOpacity>
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="CompletedTask"
+              component={CompletedTaskScreen}
+              options={({ navigation }) => ({
+                headerTitle: '',
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+                    <MaterialIcons name="arrow-back" size={24} color="grey" />
+                  </TouchableOpacity>
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="NotCompletedTask"
+              component={NotCompletedTaskScreen}
+              options={({ navigation }) => ({
+                headerTitle: '',
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+                    <MaterialIcons name="arrow-back" size={24} color="grey" />
+                  </TouchableOpacity>
+                ),
+              })}
+            />
+            <Stack.Screen
+              name="AboutUs"
+              component={AboutScreen}
+              options={({ navigation }) => ({
+                headerTitle: 'About Us',
+                headerTitleAlign: 'center',
+                headerLeft: () => (
+                  <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
+                    <MaterialIcons name="arrow-back" size={24} color="grey" />
+                  </TouchableOpacity>
+                ),
+              })}
             />
           </>
         )}
