@@ -1,11 +1,11 @@
-import { useEffect,useState } from 'react';
-import {View,Text,FlatList} from 'react-native';
+import { useEffect, useState } from 'react';
+import { View, Text, FlatList } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 import database from '@react-native-firebase/database';
 
-const NotCompletedTaskScreen= ()=> {
-     const [tasks, setTasks] = useState([]);
+const NotCompletedTaskScreen = () => {
+  const [tasks, setTasks] = useState([]);
 
   useEffect(() => {
     const user = auth().currentUser;
@@ -34,7 +34,7 @@ const NotCompletedTaskScreen= ()=> {
 
   return (
     <SafeAreaView className="m-1 bg-white p-2 flex-1">
-      <Text className="text-orange-400 text-xl mb-5 mt-2 font-semibold text-center">
+      <Text className="text-orange-400 text-xl mb-5 font-semibold text-center">
         Not Completed Tasks
       </Text>
       {tasks.length === 0 ? (
@@ -54,6 +54,6 @@ const NotCompletedTaskScreen= ()=> {
       )}
     </SafeAreaView>
   );
-}
+};
 
 export default NotCompletedTaskScreen;

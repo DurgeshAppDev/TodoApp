@@ -8,7 +8,6 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import SignInScreen from '../screens/SignInScreen';
 import LoginScreen from '../screens/LoginScreen';
 import HomeScreen from '../screens/HomeScreen';
-import Profile from '../screens/Profile';
 import MenuScreen from '../screens/MenuScreen';
 import CompletedTaskScreen from '../screens/CompletedTaskScreen';
 import NotCompletedTaskScreen from '../screens/NotCompletedTaskScreen';
@@ -63,11 +62,6 @@ const AppNavigator = () => {
                   </TouchableOpacity>
                 ),
               })}
-            />
-            <Stack.Screen
-              name="Profile"
-              component={Profile}
-              options={{ title: 'User Profile' }}
             />
             <Stack.Screen
               name="Menu"

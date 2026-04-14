@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 const SignInScreen = ({ navigation }) => {
   const [userName, setUserName] = useState('');
@@ -12,10 +13,9 @@ const SignInScreen = ({ navigation }) => {
       Alert.alert('Error', 'Please enter email and password');
       return;
     }
-    if(userPassword.length<6){
-        Alert.alert("Enter atlest 6 Digit for password")
-
-    };
+    if (userPassword.length < 6) {
+      Alert.alert('Enter atlest 6 Digit for password');
+    }
     try {
       const userCredential = await auth().createUserWithEmailAndPassword(
         userName,
@@ -30,7 +30,10 @@ const SignInScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="flex-1 justify-center  item-center bg-white">
       <View className=" bg-orange-400 rounded-xl m-2 p-5 w-11/13 shadow-lg">
-        <Text className=" text-center text-3xl font-bold text-white mb-10 mt-10">
+        <View className="justify-center items-center">
+          <MaterialIcons name="account-circle" size={100} color="white" />
+        </View>
+        <Text className=" text-center text-3xl font-bold text-white mb-10 mt-1">
           SignIn
         </Text>
 

@@ -85,11 +85,10 @@ const HomeScreen = ({ navigation }) => {
       Alert.alert('Error', error.message);
     }
   };
- 
 
   return (
     <SafeAreaView className="flex-1 bg-white p-1 m-0.5 ">
-      <View className="items-center mt-2">
+      <View className="items-center ">
         <Text className="text-left text-orange-400 text-4xl font-bold mb-6">
           Add Task
         </Text>
