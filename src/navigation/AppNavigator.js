@@ -52,7 +52,7 @@ const AppNavigator = () => {
               name="Home"
               component={HomeScreen}
               options={({ navigation }) => ({
-                headerTitle: '',
+                headerTitle: 'Home',
                 headerLeft: () => (
                   <MaterialIcons name="home" size={24} color="grey" />
                 ),
@@ -80,7 +80,7 @@ const AppNavigator = () => {
               name="CompletedTask"
               component={CompletedTaskScreen}
               options={({ navigation }) => ({
-                headerTitle: '',
+                headerTitle: 'Completed Tasks',
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
                     <MaterialIcons name="arrow-back" size={24} color="grey" />
@@ -92,7 +92,7 @@ const AppNavigator = () => {
               name="NotCompletedTask"
               component={NotCompletedTaskScreen}
               options={({ navigation }) => ({
-                headerTitle: '',
+                headerTitle: 'Not Completed task',
                 headerLeft: () => (
                   <TouchableOpacity onPress={() => navigation.navigate('Menu')}>
                     <MaterialIcons name="arrow-back" size={24} color="grey" />
