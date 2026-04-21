@@ -2,6 +2,12 @@
 
 A simple task management application built using React Native and Firebase.
 
+
+# apk file link
+
+ apk file:  https://drive.google.com/drive/folders/1RgetQzF2efIKkAoYtTHiddJ2XvO4N6ZN?usp=drive_link
+
+
 ## Features
 
 * Add new tasks
