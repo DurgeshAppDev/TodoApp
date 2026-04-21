@@ -36,8 +36,9 @@ const SignInScreen = ({ navigation }) => {
   };
 
   return (
-    <SafeAreaView className="flex-1 justify-center  item-center bg-white">
-      <KeyboardAvoidingView className="flex-1">
+    <SafeAreaView className="flex-1  bg-white">
+      <KeyboardAvoidingView className="flex-1"
+       keyboardVerticalOffset={20}>
         <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{
@@ -45,7 +46,7 @@ const SignInScreen = ({ navigation }) => {
             justifyContent: 'center',
           }}
         >
-          <View className=" bg-orange-400 rounded-xl m-2 p-5 w-11/13 shadow-lg">
+          <View className=" bg-orange-400 rounded-xl m-2 p-5 w-11/13 shadow-lg self-center">
             <View className="justify-center items-center">
               <MaterialIcons name="account-circle" size={100} color="white" />
             </View>
@@ -54,14 +55,16 @@ const SignInScreen = ({ navigation }) => {
             </Text>
 
             <TextInput
-              className="border border-white rounded-xl px-4 py-3 text-lg mb-5 bg-white shadow-lg"
+              className="border border-white rounded-xl px-4 py-3 text-lg mb-5 bg-white shadow-lg "
               placeholder="Enter Emailid Name"
+              placeholderTextColor="#9CA3AF"
               onChangeText={value => setUserName(value)}
             />
 
             <TextInput
               className="border border-white rounded-xl px-4 py-3 text-lg mb-5 bg-white shadow-lg"
               placeholder="enter your Password"
+              
               secureTextEntry
               onChangeText={value => setUserPassword(value)}
             />
