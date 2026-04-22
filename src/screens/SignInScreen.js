@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   ScrollView,
 } from 'react-native';
+import {Platform} from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import auth from '@react-native-firebase/auth';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
@@ -29,7 +30,6 @@ const SignInScreen = ({ navigation }) => {
         userName,
         userPassword,
       );
-      navigation.replace('Home');
     } catch (error) {
       Alert.alert('Login Error ', error.message);
     }
@@ -38,7 +38,9 @@ const SignInScreen = ({ navigation }) => {
   return (
     <SafeAreaView className="flex-1  bg-white">
       <KeyboardAvoidingView className="flex-1"
-       keyboardVerticalOffset={20}>
+       keyboardVerticalOffset={20}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        >
         <ScrollView
           keyboardShouldPersistTaps="handled"
           contentContainerStyle={{
